@@ -5,8 +5,8 @@ import java.sql.*;
 public class H2DatabaseSetup implements DatabaseHandler {
 
     private static final String DB_URL = "jdbc:h2:./database/mindpulseDB"; // Path to H2 DB file
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
+    private static final String USER = "megmrv";
+    private static final String PASSWORD = "naziqsucks";
 
     @Override
     public void createTables() {
