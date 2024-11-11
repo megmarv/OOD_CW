@@ -2,13 +2,12 @@ package com.example.demo.Database;
 
 import java.sql.*;
 
-public class H2DatabaseSetup implements DatabaseHandler {
+public class H2DatabaseSetup {
 
     private static final String DB_URL = "jdbc:h2:./database/mindpulseDB"; // Path to H2 DB file
     private static final String USER = "megmrv";
     private static final String PASSWORD = "naziqsucks";
 
-    @Override
     public void createTables() {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
@@ -58,7 +57,6 @@ public class H2DatabaseSetup implements DatabaseHandler {
         }
     }
 
-    @Override
     public void insertSampleData() {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
