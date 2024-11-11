@@ -5,13 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class JavaFXApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         try {
             // Load the FXML file
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/LoginPage.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
 
             // Set up the stage with the FXML scene
