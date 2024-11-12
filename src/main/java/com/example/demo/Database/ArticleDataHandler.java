@@ -5,13 +5,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// class to perform CRUD operations for the articles table in the database
 public class ArticleDataHandler {
 
     private static final String DB_URL = "jdbc:h2:./database/mindpulseDB";
     private static final String USER = "megmrv";
     private static final String PASSWORD = "naziqsucks";
 
-    public void insert(Article article) {
+    public void insertArticle(Article article) {
         String query = "INSERT INTO Articles (CategoryID, Title, AuthorName, content) VALUES (?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -27,7 +28,7 @@ public class ArticleDataHandler {
         }
     }
 
-    public Article getById(int id) {
+    public Article getArticleWithID(int id) {
         String query = "SELECT * FROM Articles WHERE ArticleID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -49,7 +50,7 @@ public class ArticleDataHandler {
         return null;
     }
 
-    public List<Article> getAll() {
+    public List<Article> getAllArticles() {
         List<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM Articles";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -71,24 +72,7 @@ public class ArticleDataHandler {
         return articles;
     }
 
-    public void update(Article article) {
-        String query = "UPDATE Articles SET CategoryID = ?, Title = ?, AuthorName = ?, content = ? WHERE ArticleID = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-            pstmt.setInt(1, article.getCategoryId());
-            pstmt.setString(2, article.getTitle());
-            pstmt.setString(3, article.getAuthorName());
-            pstmt.setString(4, article.getContent());
-            pstmt.setInt(5, article.getArticleId());
-            pstmt.executeUpdate();
-            System.out.println("Article updated successfully.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void delete(int id) {
+    public void deleteArticle(int id) {
         String query = "DELETE FROM Articles WHERE ArticleID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {

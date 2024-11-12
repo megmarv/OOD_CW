@@ -8,6 +8,10 @@ public class Article {
     private String authorName;
     private String content;
 
+    public Article(int articleId){
+        this.articleId = articleId;
+    }
+
     // Constructor with all fields
     public Article(int articleId, int categoryId, String title, String authorName, String content) {
         this.articleId = articleId;

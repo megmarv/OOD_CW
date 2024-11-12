@@ -1,6 +1,9 @@
 package com.example.demo.Database;
 
+import com.example.demo.CoreModules.Article;
+import com.example.demo.CoreModules.ArticleInteractionData;
 import com.example.demo.CoreModules.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +14,7 @@ public class UserDataHandler {
     private static final String USER = "megmrv";
     private static final String PASSWORD = "naziqsucks";
 
-    public void insert(User user) {
+    public void insertUser(User user) {
         String query = "INSERT INTO Users (Fname, Lname, Age, email, username, password) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -23,13 +26,13 @@ public class UserDataHandler {
             pstmt.setString(5, user.getUsername());
             pstmt.setString(6, user.getPassword());
             pstmt.executeUpdate();
-            System.out.println("User inserted successfully.");
+            System.out.println("User added successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public User getById(int id) {
+    public User getUserWithID(int id) {
         String query = "SELECT * FROM Users WHERE UserID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -53,7 +56,7 @@ public class UserDataHandler {
         return null;
     }
 
-    public List<User> getAll() {
+    public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM Users";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -77,7 +80,7 @@ public class UserDataHandler {
         return users;
     }
 
-    public void update(User user) {
+    public void updateUserDetails(User user) {
         String query = "UPDATE Users SET Fname = ?, Lname = ?, Age = ?, email = ?, username = ?, password = ? WHERE UserID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -96,7 +99,7 @@ public class UserDataHandler {
         }
     }
 
-    public void delete(int id) {
+    public void deleteUser(int id) {
         String query = "DELETE FROM Users WHERE UserID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -108,4 +111,44 @@ public class UserDataHandler {
             e.printStackTrace();
         }
     }
+
+    public List<ArticleInteractionData> getUserHistory(int userId) {
+        List<ArticleInteractionData> userHistory = new ArrayList<>();
+        String query = "SELECT a.ArticleID, a.CategoryID, a.Title, a.AuthorName, a.Content, " +
+                "ai.InteractionID, ai.UserID, ai.Rating, ai.TimeTaken " +
+                "FROM Articles a " +
+                "JOIN ArticleInteractions ai ON a.ArticleID = ai.ArticleID " +
+                "WHERE ai.UserID = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int articleId = rs.getInt("ArticleID");
+                int categoryId = rs.getInt("CategoryID");
+                String title = rs.getString("Title");
+                String authorName = rs.getString("AuthorName");
+                String content = rs.getString("Content");
+                int interactionId = rs.getInt("InteractionID");
+                String rating = rs.getString("Rating");
+                Time timeTaken = rs.getTime("TimeTaken");
+
+                // Create an Article object
+                Article article = new Article(articleId, categoryId, title, authorName, content);
+
+                // Create an ArticleInteractionData object that references the Article
+                ArticleInteractionData interactionData = new ArticleInteractionData(article, interactionId, userId, rating, timeTaken);
+                userHistory.add(interactionData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userHistory;
+    }
+
+
+
 }
