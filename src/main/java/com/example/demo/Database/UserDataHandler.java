@@ -11,8 +11,8 @@ import java.util.List;
 public class UserDataHandler {
 
     private static final String DB_URL = "jdbc:h2:./database/mindpulseDB";
-    private static final String USER = "megmrv";
-    private static final String PASSWORD = "naziqsucks";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "";
 
     public void insertUser(User user) {
         String query = "INSERT INTO Users (Fname, Lname, Age, email, username, password) VALUES (?, ?, ?, ?, ?, ?)";

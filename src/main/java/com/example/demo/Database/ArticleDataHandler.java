@@ -9,8 +9,8 @@ import java.util.List;
 public class ArticleDataHandler {
 
     private static final String DB_URL = "jdbc:h2:./database/mindpulseDB";
-    private static final String USER = "megmrv";
-    private static final String PASSWORD = "naziqsucks";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "";
 
     public void insertArticle(Article article) {
         String query = "INSERT INTO Articles (CategoryID, Title, AuthorName, content) VALUES (?, ?, ?, ?)";

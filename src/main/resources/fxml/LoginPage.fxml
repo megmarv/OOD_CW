@@ -35,6 +35,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="437.0" layoutY="359.0" mnemonicParsing="false" text="Create account" />
+      <Button layoutX="437.0" layoutY="359.0" mnemonicParsing="false" text="Create account" fx:id="goToSignInPage" onAction="#redirectToSignInPage"/>
    </children>
 </AnchorPane>
